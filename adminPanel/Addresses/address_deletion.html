@@ -1,0 +1,44 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Address Deletion</title>
+  </head>
+  <body>
+    <?php
+    
+
+    $sql = "SELECT * FROM Addresses";
+    $result = mysqli_query($conn, $sql);
+    
+
+    echo "<form action='/delete.php' method='post'>";
+    echo "<ul>";
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+      echo "<li>";
+      echo "<input type='checkbox' name='Addresses-" . $row['aid'] . "' value='" . $row['aid'] . "' > " . $row['aCity'];
+      echo "</li>";
+    }
+    
+    echo "</ul>";
+    echo "<input type='submit' value='Delete Selected Items'>";
+    echo "</form>";
+    
+    
+    ?>
+    
+    </select>
+    <button>DELETE</button>
+    </form>
+  </body>
+</html>
+
+
+
+
+
+  
