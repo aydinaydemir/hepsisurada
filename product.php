@@ -31,10 +31,9 @@
 
 </head>
 
-<body class="sub_page">
+<body>
 
-  <div class="hero_area">
-
+  <div class="">
     <!-- header section strats -->
     <header class="header_section">
       <div class="container-fluid">
@@ -51,12 +50,9 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="index.php">Home </a>
+              <li class="nav-item active">
+                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
               </li>
-
-
-
               <?php
               include "config.php";
 
@@ -64,18 +60,11 @@
               $myresult = mysqli_query($db, $sql_command);
               while ($row = mysqli_fetch_assoc($myresult)) {
                 $catName = $row['cName'];
-
-                if ($catName == "Phones") {
-                  echo "<li class='nav-item active'>
-                    <a class='nav-link' href='$catName.php'> $catName <span class='sr-only'>(current)</span></a>
-                    </li>";
-                } else {
-                    echo "<li class='nav-item'>
-                    <a class='nav-link' href='$catName.php'> $catName </a>
-                    </li>";
-                }
-                }   
-              ?>                                                      
+                echo "<li class='nav-item'>
+                <a class='nav-link' href='$catName.php'> $catName </a>
+              </li>";
+              }
+              ?>
             </ul>
             <div class="user_option-box">
               <a href="userprofile.php">
@@ -97,65 +86,81 @@
     <!-- end header section -->
   </div>
 
-  <!-- shop section -->
+    <!-- Product section --> 
 
-  <section class="shop_section">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-            Computers
-        </h2>
-      </div>
-      <div class="row">
-      <?php 
-      include "config.php";
-      $sql_command = "SELECT p.* FROM products p INNER JOIN belongs_to bt ON p.pid = bt.pid INNER JOIN categories c ON bt.cid = c.cid WHERE c.cName = 'Computers'";
-      $myresult = mysqli_query($db, $sql_command);
-      while ($row = mysqli_fetch_assoc($myresult)) {
-        $productID = $row['pid'];
-        $productName = $row['pName'];
-        $productPrice = $row['pPrice'];
-        $productDescription = $row['pDescription'];
-        $productImageName = $row['pid'] . '.jpg';
-        echo "<div class='col-sm-6 col-xl-3'>
-        <div class='box'>
-            <a href='Product.php?productid=$productID'>
-              <div class='img-box'>
-                <img src='$productImageName' alt=''>
+    <?php
+    include "config.php";
+    $productID = $_GET['productid'];
+    $sql_command = "SELECT * FROM products WHERE pID = $productID";
+    $myresult = mysqli_query($db, $sql_command);
+    while ($row = mysqli_fetch_assoc($myresult)) {
+      $pID = $row['pid'];
+      $pName = $row['pName'];
+      $pPrice = $row['pPrice'];
+      $pImage = $pID . ".jpg";
+      $pDescription = $row['pDescription'];
+      $pStock = $row['pStock'];
+      
+      echo "<section class='product_section layout_padding'>
+      <div class='container'>
+        <div class='row'>
+          <div class='col-md-6'>
+            <div class='img-box'>
+              <img src='$pImage' width='400' height='400' alt=''>
+            </div>
+          </div>
+          <div class='col-md-6'>
+            <div class='detail-box'>
+              <div class='heading_container'>
+                <h2>
+                  $pName
+                </h2>
               </div>
-              <div class='detail-box'>
-                <h6>
-                $productName
-                </h6>
-                <h6>
-                  Price:
-                  <span>
-                    $$productPrice
-                  </span>
-                </h6>
+              <p>
+                $pDescription
+              </p>
+              <div class='price'>
+                <h4>
+                  Price: $pPrice TL
+                </h4>
               </div>
-              <div class='new'>
-                <span>
-                  CS306
-                </span>
+              <div class='price'>
+                <h4>
+                  Stock: $pStock
+                </h4>
               </div>
-            </a>
+              <div class='btn-box'>
+                <a href='addtocart.php?productid=$pID'>
+                  <button type='submit'>
+                    Add to Cart
+                  </button>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-        ";
-        
-
-      }
-      ?>
-        
-        
-        </div>
       </div>
-      
-    </div>
-  </section>
+    </section>";
+    }
+    
+    
 
-  <!-- end shop section -->
+
+    ?>
+
+
+
+
+
+
+
+
+
+
+    <!-- Product section --> 
+
+
+  <!-- about section -->
 
   <section class="about_section layout_padding">
     <div class="container">
