@@ -84,6 +84,11 @@
               <a href="">
                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
               </a>
+              <a href="/hepsisurada/adminPanel/home.html">
+                <i class="nav-item">
+                  <i class="nav-link" href="../home.html">Admin Panel</i>
+                </i>
+              </a>
             </div>
           </div>
         </nav>
@@ -107,13 +112,14 @@
       $sql_command = "SELECT p.* FROM products p INNER JOIN belongs_to bt ON p.pid = bt.pid INNER JOIN categories c ON bt.cid = c.cid WHERE c.cName = 'Phones'";
       $myresult = mysqli_query($db, $sql_command);
       while ($row = mysqli_fetch_assoc($myresult)) {
+        $productID = $row['pid'];
         $productName = $row['pName'];
         $productPrice = $row['pPrice'];
         $productDescription = $row['pDescription'];
         $productImageName = $row['pid'] . '.jpg';
         echo "<div class='col-sm-6 col-xl-3'>
         <div class='box'>
-            <a href=''>
+            <a href='Product.php?productid=$productID'>
               <div class='img-box'>
                 <img src='$productImageName' alt=''>
               </div>

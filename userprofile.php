@@ -73,6 +73,11 @@
               <a href="">
                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
               </a>
+              <a href="/hepsisurada/adminPanel/home.html">
+                <i class="nav-item">
+                  <i class="nav-link" href="../home.html">Admin Panel</i>
+                </i>
+              </a>
             </div>
           </div>
         </nav>
@@ -90,12 +95,89 @@
           Your Profile
         </h2>
       </div>
-      <div class="row">
-        <?<php>
+      <div class="">
+        <?php
+        include "config.php";
+        $userID = 2;   // Change the value of the userid in order to get that user profile
+        $sql_command = "SELECT * FROM users WHERE uid = $userID";
+        $myresult = mysqli_query($db, $sql_command);
+        while ($row = mysqli_fetch_assoc($myresult)) {
+          $name = $row['uName'];
+          $surname = $row['uSurname'];
+          $age = $row['uAge'];
+          $email = $row['uEmail'];
+          $phoneNumber = $row['uPhoneNumber'];
+          $sex = $row['uSex'];
+          echo "<div class='col-md-6' style = 'padding-bottom: 50px'>
+          <div class='detail-box'>
+            <div class='heading_container '>
+              <h2>
+                $name $surname
+              </h2>
+            </div>
+            <h4>
+              Age: $age
+            </h4>
+            <h4>
+              Email: $email
+            </h4>
+            <h4>
+              Phone Number: $phoneNumber
+            </h4>
+          </div>
+        </div>";
+
+        $sql_command = "SELECT a.aCity, a.aCountry, a.aZipCode, a.aStreet
+        FROM users u
+        JOIN has h ON u.uid = h.uid
+        JOIN addresses a ON h.aid = a.aid
+        WHERE u.uid = $userID";
+        $myresult = mysqli_query($db, $sql_command);
+        echo "<div class='col' >
+          <div class='detail-box' style = 'padding-bottom: 25px'>
+            <div class='heading_container' >
+              <h2>
+                Addresses
+              </h2>
+            </div>
+        </div>";
+
+
+        $addressCounter = 1;
+        while ($row = mysqli_fetch_assoc($myresult)) {
+          $city = $row['aCity'];
+          $country = $row['aCountry'];
+          $zipCode = $row['aZipCode'];
+          $street = $row['aStreet'];
         
+          echo "<div class='row'>
+          <div class=''>
+          <div class='detail-box' style = 'padding-left: 10px; padding-right: 50px'>
+            <div class='heading_container'>
+              <h3 style = 'color: #3b4a6b; font-weight: 600;'>
+                Address  $addressCounter
+              </h3>
+            </div>
+            <h4>
+              City: $city
+            </h4>
+            <h4>
+              Country: $country
+            </h4>
+            <h4>
+              Zip Code: $zipCode
+            </h4>
+            <h4>
+              Street: $street
+            </h4>
+          </div>
+        </div>";
+          $addressCounter++;
+        }
+
+        }
         
-        
-        <?>
+        ?>
         
         
         </div>
@@ -232,3 +314,14 @@
 </body>
 
 </html>
+
+
+
+
+I have the following tables in my mysql database:
+
+
+users(uid, uName, uSurname, uAge, uEmail, uPhoneNumber, uSex)
+addressess(aid, aCity, aCountry, aZipCode, aStreet)
+has(uid, aid)
+How can i take the address of the user?
