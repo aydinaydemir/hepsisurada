@@ -78,11 +78,16 @@
               ?>                                                      
             </ul>
             <div class="user_option-box">
-              <a href="userprofile.php">
+            <a href="userprofile.php">
                 <i class="fa fa-user" aria-hidden="true"></i>
               </a>
-              <a href="">
+              <a href="shoppingCart.php">
                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
+              </a>
+              <a href="/hepsisurada/orders.php">
+                <i class="nav-item">
+                  <i class="nav-link" href="/hepsisurada/orders.php">My Orders</i>
+                </i>
               </a>
               <a href="/hepsisurada/adminPanel/home.html">
                 <i class="nav-item">

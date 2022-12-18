@@ -91,108 +91,141 @@
     <!-- end header section -->
   </div>
 
-    <!-- Product section --> 
-
-    <?php
-    include "config.php";
-    $productID = $_GET['productid'];
-    $sql_command = "SELECT * FROM products WHERE pID = $productID";
-    $myresult = mysqli_query($db, $sql_command);
-    while ($row = mysqli_fetch_assoc($myresult)) {
-      $pID = $row['pid'];
-      $pName = $row['pName'];
-      $pPrice = $row['pPrice'];
-      $pImage = $pID . ".jpg";
-      $pDescription = $row['pDescription'];
-      $pStock = $row['pStock'];
-
-      $sql_command2 = "SELECT *
-      FROM products p
-      JOIN imported_from impf ON p.pid = impf.pid
-      JOIN productcompany pc ON impf.pcid = pc.pcid
-      WHERE p.pid = $pID";
-      $pCompany = "";
-      $pcNation = "";
-      $myresult2 = mysqli_query($db, $sql_command2);
-      while ($row2 = mysqli_fetch_assoc($myresult2)) {
-        $pCompany = $row2['pcName'];
-        $pcNation = $row2['pcNation'];
-      }
+<!-- shop section -->
 
 
+<style>
+    .total-amount-container {
+  display: flex;
+  flex-direction: column;
+}
 
+.total-amount {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
 
+.checkout-button {
+  display: block;
+  width: 200px;
+  height: 50px;
+  margin: 20px auto 0;
+  background-color: #333;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+  </style>
 
-      
-      echo "<section class='product_section layout_padding'>
-      <div class='container'>
-        <div class='row'>
-          <div class='col-md-6'>
-            <div class='img-box'>
-              <img src='$pImage' width='400' height='400' alt=''>
-            </div>
-          </div>
-          <div class='col-md-6'>
-            <div class='detail-box'>
-              <div class='heading_container'>
-                <h2>
-                  $pName
-                </h2>
-              </div>
-              <p>
-                $pDescription
-              </p>
-              <div class='price'>
-                <h4>
-                  Price: $pPrice TL
-                </h4>
-              </div>
-              <div class='price'>
-                <h4>
-                  Stock: $pStock
-                </h4>
-              </div>
-              <div class='btn-box'>
-                <a href='addtocart.php?productid=$pID'>
-                  <button type='submit'>
-                    Add to Cart
-                  </button>
-                </a>
-              </div>
-              <div class='price'>
-                <h4>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  Company: $pCompany from $pcNation
-                </h4>
-
-            </div>
-          </div>
+ 
+<section class="shop_section">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>
+          Your Orders
+        </h2>
+      </div>
+      <div class="">
+        <?php
+        include "config.php";
+        $userID = 1;   // Change the value of the userid in order to get that user profile
+        $sql_command = "SELECT o.oid, o.oStatus
+        FROM orders o
+        JOIN give g ON o.oid = g.oid
+        JOIN users u ON g.uid = u.uid
+        WHERE u.uid = $userID
+        ";
+        $myresult = mysqli_query($db, $sql_command);
+        // First, get all the orders for the user
+        $orders = array();
+        while ($row = mysqli_fetch_assoc($myresult)) {
+            $orders[] = array(
+                'orderID' => $row['oid'],
+                'orderStatus' => $row['oStatus']
+            );
+        }
+        
+        // Now, loop through the orders and display them
+        foreach ($orders as $order) {
+            // Wrap the order information in a div with a grey background
+            echo '<div class="order" style="background-color: #3b4a6b;  border-radius: 10px;">';
+            
+            // Display the order information
+            echo '<h3 style = "color: white; padding-left: 15px; padding-top: 10px" >Order ID: ' . $order['orderID'] . '</h3>';
+            echo '<p style = "color: white; padding-left: 25px">Order Status: ' . $order['orderStatus'] . '</p>';
+            
+            // Now, get the products in the order
+            $orderID = $order['orderID'];
+            $product_sql_command = "SELECT p.pName, p.pPrice, p.pid, c.amount
+                                   FROM products p
+                                   JOIN consists_of c ON p.pid = c.pid
+                                   WHERE c.oid = $orderID";
+            $product_result = mysqli_query($db, $product_sql_command);
+            
+            // Display the products in a table
+            $totalShoppingCart = 0;
+            while ($row = mysqli_fetch_assoc($product_result)) {
+              $pID = $row['pid'];
+              $pName = $row['pName'];
+              $pPrice = $row['pPrice']; 
+              $amount = $row['amount'];
+              $totPrice = floatval($pPrice) * floatval($amount);
+              $totalShoppingCart += $totPrice;
+              
+              // Wrap the product information and details in a div with a white background
+              echo "<div class='row' style='border: 15px solid #3b4a6b; border-radius: 20px; background-color: white; margin: 10px 0'>
+                <div class='product-container' style='display: flex; align-items: center; width: 70%'>
+                  <div class='img-box'>
+                    <img src='$pID.jpg' alt='' style='width: 100px; height: 100px;  border-radius: 20px;'>
+                  </div>
+                  <div class='detail-box'>
+                    <div class='type'>
+                      <h4 style = 'padding-left: 10px'>
+                        $amount x $pName
+                      </h4>
+                    </div>
+                    <div class='price' style = 'padding-left: 25px; color: gray'>
+                      <h6>
+                        $pPrice$
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+                <div class='price-container' style='display: flex; align-items: center; width: 30%; justify-content: flex-end'>
+                  <div class='price'>
+                    <h6>
+                      $totPrice$
+                    </h6>
+                  </div>
+                </div>
+              </div>";
+            }
+            
+            // Close the div for the order
+            echo '</div> <br> <br>';
+          }
+          
+        
+        
+          
+        ?>
+        
+        
         </div>
       </div>
-    </section>";
-    }
-    
-    
+      
+    </div>
+  </section>
 
-
-    ?>
-
-
-
-
-
-
-
-
-
-
-    <!-- Product section --> 
-
+  <!-- end shop section -->
 
   <!-- about section -->
 
