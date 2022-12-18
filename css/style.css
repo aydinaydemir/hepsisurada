@@ -145,7 +145,7 @@ a:focus {
 
 .navbar-brand span {
   font-weight: bold;
-  color: #000000;
+  color: white;
   font-size: 24px;
 }
 
@@ -159,7 +159,7 @@ a:focus {
 
 .custom_nav-container .navbar-nav .nav-item .nav-link {
   padding: 5px 25px;
-  color: #000000;
+  color: #F1F6F9;
   text-align: center;
   text-transform: uppercase;
   border-radius: 5px;
@@ -168,8 +168,8 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
-  color: #000000;
-  background-color: #ffffff;
+  color: #F1F6F9;
+  background-color: #0f1d3a;
 }
 
 .custom_nav-container .navbar-toggler {
@@ -188,7 +188,7 @@ a:focus {
   display: block;
   width: 35px;
   height: 4px;
-  background-color: #000000;
+  background-color: #0f1d3a;
   margin: 7px 0;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -203,7 +203,7 @@ a:focus {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: #000000;
+  background-color: #0f1d3a;
   top: -10px;
   border-radius: 5px;
   -webkit-transition: all 0.3s;
@@ -265,14 +265,14 @@ a:focus {
 }
 
 .user_option-box a {
-  color: #000000;
+  color: #F1F6F9;
   text-transform: uppercase;
   margin-left: 15px;
   font-size: 17px;
 }
 
 .user_option-box a:hover {
-  color: #3b4a6b;
+  color: #0f1d3a;
 }
 
 /*end header section*/
@@ -471,7 +471,7 @@ a:focus {
 }
 
 .about_section {
-  background-color: #3b4a6b;
+  background-color: #4bb39a;
   color: #ffffff;
 }
 

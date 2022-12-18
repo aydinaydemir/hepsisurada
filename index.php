@@ -33,15 +33,13 @@
 
 <body>
 
-  <div class="">
+<div class="" style="background-color: #394867;">
     <!-- header section strats -->
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.php">
-            <span>
-              Hepsisurada
-            </span>
+          <img src="images/logo.png" style = "width: 225px; height: 60px;" alt="">
           </a>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +59,7 @@
               while ($row = mysqli_fetch_assoc($myresult)) {
                 $catName = $row['cName'];
                 echo "<li class='nav-item'>
-                <a class='nav-link' href='$catName.php'> $catName </a>
+                <a class='nav-link' href='category.php?catname=$catName'>$catName</a>
               </li>";
               }
               ?>
@@ -93,7 +91,7 @@
 
   <!-- shop section -->
 
-  <section class="shop_section">
+  <section class="shop_section" style = "background-color: white;">>
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -110,7 +108,7 @@
         $productName = $row['pName'];
         $productPrice = $row['pPrice'];
         $productDescription = $row['pDescription'];
-        $productImageName = $row['pid'] . '.jpg';
+        $productImageName = 'images/' . $row['pid'] . '.jpg';
         echo "<div class='col-sm-6 col-xl-3'>
         <div class='box'>
             <a href='Product.php?productid=$productID'>
@@ -153,7 +151,7 @@
 
   <!-- about section -->
 
-  <section class="about_section layout_padding">
+  <section class="about_section layout_padding" style = "background-color: #14274E">
     <div class="container">
       <div class="row">
         <div class="">
@@ -226,7 +224,7 @@
 <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="aydinaydemirx.jpg" alt="Aydin Aydemir" style="width:100%">
+      <img src="images/aydinaydemirx.jpg" alt="Aydin Aydemir" style="width:100%">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Aydin Aydemir</h2>
         <p class="title" style= "text-align: center">Group Member</p>
@@ -239,7 +237,7 @@
   <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="aycaataerx.jpg" alt="Ayca Ataer" style="width:100%">
+      <img src="images/aycaataerx.jpg" alt="Ayca Ataer" style="width:100%">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Ayca Ataer</h2>
         <p class="title" style= "text-align: center">Group Member</p>
@@ -252,7 +250,7 @@
   <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="halilibrahimx.jpg" alt="Halil Ibrahim Deniz" style="width:100%;">
+      <img src="images/halilibrahimx.jpg" alt="Halil Ibrahim Deniz" style="width:100%;">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Halil Ibrahim Deniz</h2>
         <p class="title" style= "text-align: center">Group Member</p>

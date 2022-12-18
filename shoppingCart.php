@@ -33,15 +33,13 @@
 
 <body>
 
-  <div class="">
+<div class="" style="background-color: #394867;">
     <!-- header section strats -->
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.php">
-            <span>
-              Hepsisurada
-            </span>
+          <img src="images/logo.png" style = "width: 225px; height: 60px;" alt="">
           </a>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +59,7 @@
               while ($row = mysqli_fetch_assoc($myresult)) {
                 $catName = $row['cName'];
                 echo "<li class='nav-item'>
-                <a class='nav-link' href='$catName.php'> $catName </a>
+                <a class='nav-link' href='category.php?catname=$catName'> $catName </a>
               </li>";
               }
               ?>
@@ -125,7 +123,7 @@
 }
   </style>
 
-<section class="shop_section">
+<section class="shop_section" style = "background-color: white;">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -147,15 +145,19 @@
           $amount = $row['amount'];
           $totPrice = floatval($pPrice) * floatval($amount);
           $totalShoppingCart += $totPrice;
-          echo "<div class='row' style='border: 1px solid black; border-radius: 10px; background-color: lightgray; margin: 10px 0'>
+          $imageSource = "images/" . $pID . ".jpg";
+          echo "
+          <a href='product.php?productid=$pID' style='text-decoration: none; color: black'>
+          <div class='row' style='border: 1px solid black; border-radius: 10px; background-color: lightgray; margin: 10px 0' >
+          
           <div class='product-container' style=' display: flex; align-items: center; width: 70%'>
             <div class='img-box'>
-              <img src='$pID.jpg' alt='' style='border-radius: 10px; width: 100px; height: 100px;'>
+              <img src='$imageSource' alt='' style='border-radius: 10px; width: 100px; height: 100px;'>
             </div>
             <div class='detail-box'>
               <div class='type'>
                 <h4 style = 'padding-left: 10px'>
-                  $amount x $pName
+                <button id='decrease-button' class='decrease-button'>-</button> $amount <button id='increase-button' class='increase-button'>+</button> $pName
                 </h4>
               </div>
               <div class='price' style = 'padding-left: 25px; color: gray'>
@@ -173,6 +175,8 @@
             </div>
           </div>
         </div>
+        </a>
+        
         
         ";
         
@@ -198,7 +202,7 @@
 
   <!-- about section -->
 
-  <section class="about_section layout_padding">
+  <section class="about_section layout_padding" style = "background-color: #14274E">
     <div class="container">
       <div class="row">
         <div class="">
@@ -271,7 +275,7 @@
 <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="aydinaydemirx.jpg" alt="Aydin Aydemir" style="width:100%">
+      <img src="images/aydinaydemirx.jpg" alt="Aydin Aydemir" style="width:100%">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Aydin Aydemir</h2>
         <p class="title" style= "text-align: center">Group Member</p>
@@ -284,7 +288,7 @@
   <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="aycaataerx.jpg" alt="Ayca Ataer" style="width:100%">
+      <img src="images/aycaataerx.jpg" alt="Ayca Ataer" style="width:100%">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Ayca Ataer</h2>
         <p class="title" style= "text-align: center">Group Member</p>
@@ -297,7 +301,7 @@
   <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="halilibrahimx.jpg" alt="Halil Ibrahim Deniz" style="width:100%;">
+      <img src="images/halilibrahimx.jpg" alt="Halil Ibrahim Deniz" style="width:100%;">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Halil Ibrahim Deniz</h2>
         <p class="title" style= "text-align: center">Group Member</p>

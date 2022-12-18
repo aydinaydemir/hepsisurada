@@ -24,10 +24,6 @@ $myresult3 = mysqli_query($db, $sql_command3);
     while($id_rows = mysqli_fetch_assoc($myresult))
     {
 
-        $id_rows2 = mysqli_fetch_assoc($myresult2);
-        $id_rows3 = mysqli_fetch_assoc($myresult3);
-        $uName = $id_rows2['uName'];
-        $pName = $id_rows3['pName'];
 
         $amount = $id_rows['amount'];
 
@@ -35,7 +31,7 @@ $myresult3 = mysqli_query($db, $sql_command3);
 
         $uid = $id_rows['uid'];
 
-        echo "<option value='$pid-$uid'>". $uName . " ". $pName . " " . $amount . "</option>";
+        echo "<option value='$pid-$uid'>". $pid . " ". $uid . " " . $amount . "</option>";
 }
         
 

@@ -33,15 +33,14 @@
 
 <body>
 
-  <div class="">
+  <div class="" style="background-color: #394867;">
     <!-- header section strats -->
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.php">
-            <span>
-              Hepsisurada
-            </span>
+            <img src="images/logo.png" style = "width: 225px; height: 60px;" alt="">
+
           </a>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +60,7 @@
               while ($row = mysqli_fetch_assoc($myresult)) {
                 $catName = $row['cName'];
                 echo "<li class='nav-item'>
-                <a class='nav-link' href='$catName.php'> $catName </a>
+                <a class='nav-link' href='category.php?catname=$catName'> $catName </a>
               </li>";
               }
               ?>
@@ -126,7 +125,7 @@
   </style>
 
  
-<section class="shop_section">
+<section class="shop_section" style = "background-color: white;">>
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -147,20 +146,55 @@
         // First, get all the orders for the user
         $orders = array();
         while ($row = mysqli_fetch_assoc($myresult)) {
-            $orders[] = array(
-                'orderID' => $row['oid'],
-                'orderStatus' => $row['oStatus']
-            );
-        }
+          $order = array(
+              'orderID' => $row['oid'],
+              'orderStatus' => $row['oStatus']
+          );
+          $sql_cmnd = "SELECT cargocompany.ccName, cargocompany.ccCost
+                      FROM orders
+                      JOIN cargocompany ON orders.ccid = cargocompany.ccid
+                      WHERE orders.oid = '" . $order['orderID'] . "'";
+          $result = mysqli_query($db, $sql_cmnd);
+          while ($row = mysqli_fetch_assoc($result)) {
+              $order['cargoCompany'] = $row['ccName'];
+              $order['cargoCost'] = $row['ccCost'];
+          }
+          $orders[] = $order;
+      }
+      
         
         // Now, loop through the orders and display them
         foreach ($orders as $order) {
             // Wrap the order information in a div with a grey background
-            echo '<div class="order" style="background-color: #3b4a6b;  border-radius: 10px;">';
+            echo '<div class="order" style="background-color: #5f76a7;  border-radius: 10px;">';
             
+
+            $CargoCompany = $order['cargoCompany'];
+            $CargoCost = $order['cargoCost'];
             // Display the order information
-            echo '<h3 style = "color: white; padding-left: 15px; padding-top: 10px" >Order ID: ' . $order['orderID'] . '</h3>';
-            echo '<p style = "color: white; padding-left: 25px">Order Status: ' . $order['orderStatus'] . '</p>';
+            echo "<div class='row' style='border: 2px solid black; border-radius: 10px; margin: 10px 0; color: white'>
+            <div class='price-container' style='display: flex; align-items: center; width: 30%; justify-content: flex-start'>
+              <span class='price' style='font-size: 20px; font-weight: bold; color: black; padding-left: 20px; padding-top: 10px;  padding-bottom: 10px; margin-right: 10px'>Order ID: " . $order['orderID'] . "
+               <br> Order Status: " . $order['orderStatus'] . "
+              </span>
+            </div>
+            <div class='total-amount-container' style='justify-content: flex-end; width: 70%;'>
+              <div class='total-amount' style='display: flex; align-items: center; justify-content: flex-end; width: 100%; font-size: 18px; font-weight: bold; color: #333;'>
+                <span class='price' style='font-size: 20px; font-weight: bold; color: black; margin-right: 10px'>
+                </span>
+              </div>
+              <div class='total-amount' style='padding-bottom: 10px; padding-right: 20px; display: flex; align-items: center; justify-content: flex-end; width: 100%; font-size: 18px; font-weight: bold; color: #333;'>
+                <span class='price' style='font-size: 20px; font-weight: bold; color: black; margin-right: 10px'>
+                Cargo Company:  " . $CargoCompany . "
+                <br> Cargo Cost: " . $CargoCost . '$' . "
+                </span>
+              </div>
+            </div>
+          </div>";
+
+
+          
+
             
             // Now, get the products in the order
             $orderID = $order['orderID'];
@@ -179,12 +213,14 @@
               $amount = $row['amount'];
               $totPrice = floatval($pPrice) * floatval($amount);
               $totalShoppingCart += $totPrice;
+              $imageSource = "images/" . $pID . ".jpg";
               
               // Wrap the product information and details in a div with a white background
-              echo "<div class='row' style='border: 15px solid #3b4a6b; border-radius: 20px; background-color: white; margin: 10px 0'>
-                <div class='product-container' style='display: flex; align-items: center; width: 70%'>
+              echo " <a href='product.php?productid=$pID' style='text-decoration: none; color: black'>
+              <div class='row' style='border: 15px solid #5f76a7; border-radius: 20px; background-color: white; margin: 10px 0'>
+                <div class='product-container' style='display: flex; align-items: center; width: 70%; border-left: 2px solid black; border-top: 2px solid black; border-bottom: 2px solid black'>
                   <div class='img-box'>
-                    <img src='$pID.jpg' alt='' style='width: 100px; height: 100px;  border-radius: 20px;'>
+                    <img src= $imageSource alt='' style='width: 100px; height: 100px;  border-radius: 20px;'>
                   </div>
                   <div class='detail-box'>
                     <div class='type'>
@@ -199,14 +235,16 @@
                     </div>
                   </div>
                 </div>
-                <div class='price-container' style='display: flex; align-items: center; width: 30%; justify-content: flex-end'>
+                <div class='price-container' style='display: flex; align-items: center; width: 30%; justify-content: flex-end; border-right: 2px solid black; border-top: 2px solid black; border-bottom: 2px solid black'>
                   <div class='price'>
                     <h6>
                       $totPrice$
                     </h6>
                   </div>
                 </div>
-              </div>";
+              </div>
+              </a>
+              ";
             }
                 
             
@@ -230,7 +268,7 @@
 
   <!-- about section -->
 
-  <section class="about_section layout_padding">
+  <section class="about_section layout_padding" style = "background-color: #14274E">
     <div class="container">
       <div class="row">
         <div class="">
@@ -303,7 +341,7 @@
 <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="aydinaydemirx.jpg" alt="Aydin Aydemir" style="width:100%">
+      <img src="images/aydinaydemirx.jpg" alt="Aydin Aydemir" style="width:100%">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Aydin Aydemir</h2>
         <p class="title" style= "text-align: center">Group Member</p>
@@ -316,7 +354,7 @@
   <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="aycaataerx.jpg" alt="Ayca Ataer" style="width:100%">
+      <img src="images/aycaataerx.jpg" alt="Ayca Ataer" style="width:100%">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Ayca Ataer</h2>
         <p class="title" style= "text-align: center">Group Member</p>
@@ -329,7 +367,7 @@
   <div class="rowx">
   <div class="columnx">
     <div class="cardx">
-      <img src="halilibrahimx.jpg" alt="Halil Ibrahim Deniz" style="width:100%;">
+      <img src="images/halilibrahimx.jpg" alt="Halil Ibrahim Deniz" style="width:100%;">
       <div class="containerx">
         <h2 style="padding-top: 16px; text-align: center">Halil Ibrahim Deniz</h2>
         <p class="title" style= "text-align: center">Group Member</p>

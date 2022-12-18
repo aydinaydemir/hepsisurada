@@ -34,7 +34,7 @@ $textCol: #1f1f1f;
 body {
   @include main-font;
   color: #0c0c0c;
-  background-color: #ffffff;
+  background-color: #f1b24b;
   overflow-x: hidden;
 }
 
@@ -182,8 +182,8 @@ a:focus {
       &:hover,
       &.active {
         .nav-link {
-          color: $black;
-          background-color: $white;
+          color: $white;
+          background-color: #0f1d3a;
         }
       }
     }
@@ -372,7 +372,6 @@ a:focus {
 // shop section
 .shop_section {
 
-
   .heading_container {
     margin-bottom: 20px;
   }
@@ -445,7 +444,7 @@ a:focus {
 
 // about section
 .about_section {
-  background-color: $primary2;
+  background-color: #36846b;
   color: $white;
 
   .row {
