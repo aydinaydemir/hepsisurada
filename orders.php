@@ -208,6 +208,7 @@
                 </div>
               </div>";
             }
+                
             
             // Close the div for the order
             echo '</div> <br> <br>';
