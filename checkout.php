@@ -33,14 +33,13 @@
 
 <body>
 
-  <div class="" style="background-color: #394867;">
+<div class="" style="background-color: #394867;">
     <!-- header section strats -->
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.php">
-            <img src="images/logo.png" style = "width: 225px; height: 60px;" alt="">
-
+          <img src="images/logo.png" style = "width: 225px; height: 60px;" alt="">
           </a>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +112,7 @@
   display: block;
   width: 200px;
   height: 50px;
-  margin: 20px auto 0;
+ margin: 0 0 0 auto;
   background-color: #333;
   color: #fff;
   font-size: 18px;
@@ -122,140 +121,302 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+form {
+  width: 40%;
+  height: 50%;
+  text-align: left;
+  padding: 7px;
+  border: 1px solid #ccc;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+}
+
+input[type="submit"] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 12px 20px;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+.shoppingCart-container {
+  float: right;
+  size: 20%;
+  margin: 0 0 0 auto;
+}
+.address-box {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .detail-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .heading_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+  .address-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .address-box {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .detail-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .heading_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+
+
   </style>
 
- 
+
+
+
+
+
+
+<script>
+    function myFunction() {
+        // Send an HTTP request to the PHP script
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'checkoutCheck.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            // If the request was successful, display a confirmation message
+            if (xhr.status === 200) {
+                alert(xhr.responseText);
+            }
+        };
+        xhr.send();
+    }
+</script>
+
+
+
 <section class="shop_section" style = "background-color: white;">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          Your Orders
+          Your Shopping Cart
         </h2>
       </div>
-      <div class="">
+      <div class="" style = " overflow: auto;">
+      <form style = "display: inline-block; vertical-align: top;">
+        <label for="card-number">Card Number:</label><br>
+        <input type="text" id="card-number" name="card-number"><br>
+        <label for="expiration-date">Expiration Date:</label><br>
+        <input type="text" id="expiration-date" name="expiration-date"><br>
+        <label for="cvv">CVV:</label><br>
+        <input type="text" id="cvv" name="cvv"><br><br>
+        </form>
         <?php
         include "config.php";
         $userID = 1;   // Change the value of the userid in order to get that user profile
-        $sql_command = "SELECT o.oid, o.oStatus
-        FROM orders o
-        JOIN give g ON o.oid = g.oid
-        JOIN users u ON g.uid = u.uid
-        WHERE u.uid = $userID
-        ";
+        $sql_command = "SELECT p.pID, p.pName, p.pStock, p.pAvgRating, p.pPrice, p.pDescription, sc.amount FROM users u JOIN add_to_shoppingcart sc ON u.uid = sc.uid JOIN products p ON sc.pID = p.pID WHERE u.uid = $userID";
         $myresult = mysqli_query($db, $sql_command);
-        // First, get all the orders for the user
-        $orders = array();
+        echo "<div class = 'shoppingCart-container' style = 'display: inline-block; vertical-align: top; width: 50%;'>";
+        $totalShoppingCart = 0;
         while ($row = mysqli_fetch_assoc($myresult)) {
-          $order = array(
-              'orderID' => $row['oid'],
-              'orderStatus' => $row['oStatus']
-          );
-          $sql_cmnd = "SELECT cargocompany.ccName, cargocompany.ccCost
-                      FROM orders
-                      JOIN cargocompany ON orders.ccid = cargocompany.ccid
-                      WHERE orders.oid = '" . $order['orderID'] . "'";
-          $result = mysqli_query($db, $sql_cmnd);
-          while ($row = mysqli_fetch_assoc($result)) {
-              $order['cargoCompany'] = $row['ccName'];
-              $order['cargoCost'] = $row['ccCost'];
-          }
-          $orders[] = $order;
-      }
+          $pID = $row['pID'];
+          $pName = $row['pName'];
+          $pPrice = $row['pPrice']; 
+          $amount = $row['amount'];
+          $totPrice = floatval($pPrice) * floatval($amount);
+          $totalShoppingCart += $totPrice;
+          $imageSource = "images/" . $pID . ".jpg";
+          echo "
+          <a href='product.php?productid=$pID' style='text-decoration: none; color: black'>
+          <div class='row' style='border: 1px solid black; border-radius: 10px; background-color: lightgray; margin: 0 0 10px 0;' >
+          
+          <div class='product-container' style=' display: flex; align-items: center; width: 70%'>
+            <div class='img-box'>
+              <img src='$imageSource' alt='' style='border-radius: 10px; width: 100px; height: 100px;'>
+            </div>
+            <div class='detail-box'>
+              <div class='type'>
+                <h4 style = 'padding-left: 10px'>
+                <button id='decrease-button' class='decrease-button'>-</button> $amount <button id='increase-button' class='increase-button'>+</button> $pName
+                </h4>
+              </div>
+              <div class='price' style = 'padding-left: 25px; color: gray'>
+                <h6>
+                  $pPrice$
+                </h6>
+              </div>
+            </div>
+          </div>
+          <div class='price-container' style='display: flex; align-items: center; width: 30%; justify-content: flex-end'>
+            <div class='price'>
+              <h6>
+                $totPrice$
+              </h6>
+            </div>
+          </div>
+        </div>
+        </a>
+        
+        
+        ";
+        
+
+        }
+        echo "<div class='total-amount-container'>
+        <div class='total-amount'>Total Amount: $totalShoppingCart$</div>
+        <br>
+      </div>";
+      echo "</div>";
+
+
+
+
+
+      $sql_command = "SELECT a.aCity, a.aCountry, a.aZipCode, a.aStreet
+      FROM users u
+      JOIN has h ON u.uid = h.uid
+      JOIN addresses a ON h.aid = a.aid
+      WHERE u.uid = $userID";
+      $myresult = mysqli_query($db, $sql_command);
+      echo "<div class='col' style = 'padding-top: 200px;' >
+        <div class='detail-box' style = 'padding-bottom: 25px'>
+          <div class='heading_container' >
+            <h2>
+              Addresses
+            </h2>
+          </div>
+      </div>";
+
+
+      $addressCounter = 1;
+      echo "<div class='address-container' style = 'grid-row: 1;'>";
+      while ($row = mysqli_fetch_assoc($myresult)) {
+        $city = $row['aCity'];
+        $country = $row['aCountry'];
+        $zipCode = $row['aZipCode'];
+        $street = $row['aStreet'];
       
-        
-        // Now, loop through the orders and display them
-        foreach ($orders as $order) {
-            // Wrap the order information in a div with a grey background
-            echo '<div class="order" style="background-color: #5f76a7;  border-radius: 10px;">';
-            
-
-            $CargoCompany = $order['cargoCompany'];
-            $CargoCost = $order['cargoCost'];
-            // Display the order information
-            echo "<div class='row' style='border: 2px solid black; border-radius: 10px; margin: 10px 0; color: white'>
-            <div class='price-container' style='display: flex; align-items: center; width: 30%; justify-content: flex-start'>
-              <span class='price' style='font-size: 20px; font-weight: bold; color: black; padding-left: 20px; padding-top: 10px;  padding-bottom: 10px; margin-right: 10px'>Order ID: " . $order['orderID'] . "
-               <br> Order Status: " . $order['orderStatus'] . "
-              </span>
-            </div>
-            <div class='total-amount-container' style='justify-content: flex-end; width: 70%;'>
-              <div class='total-amount' style='display: flex; align-items: center; justify-content: flex-end; width: 100%; font-size: 18px; font-weight: bold; color: #333;'>
-                <span class='price' style='font-size: 20px; font-weight: bold; color: black; margin-right: 10px'>
-                </span>
-              </div>
-              <div class='total-amount' style='padding-bottom: 10px; padding-right: 20px; display: flex; align-items: center; justify-content: flex-end; width: 100%; font-size: 18px; font-weight: bold; color: #333;'>
-                <span class='price' style='font-size: 20px; font-weight: bold; color: black; margin-right: 10px'>
-                Cargo Company:  " . $CargoCompany . "
-                <br> Cargo Cost: " . $CargoCost . '$' . "
-                </span>
-              </div>
-            </div>
-          </div>";
-
-
-          
-
-            
-            // Now, get the products in the order
-            $orderID = $order['orderID'];
-            $product_sql_command = "SELECT p.pName, p.pPrice, p.pid, c.amount
-                                   FROM products p
-                                   JOIN consists_of c ON p.pid = c.pid
-                                   WHERE c.oid = $orderID";
-            $product_result = mysqli_query($db, $product_sql_command);
-            
-            // Display the products in a table
-            $totalShoppingCart = 0;
-            while ($row = mysqli_fetch_assoc($product_result)) {
-              $pID = $row['pid'];
-              $pName = $row['pName'];
-              $pPrice = $row['pPrice']; 
-              $amount = $row['amount'];
-              $totPrice = floatval($pPrice) * floatval($amount);
-              $totalShoppingCart += $totPrice;
-              $imageSource = "images/" . $pID . ".jpg";
-              
-              // Wrap the product information and details in a div with a white background
-              echo " <a href='product.php?productid=$pID' style='text-decoration: none; color: black'>
-              <div class='row' style='border: 15px solid #5f76a7; border-radius: 20px; background-color: white; margin: 10px 0'>
-                <div class='product-container' style='display: flex; align-items: center; width: 70%; border-left: 2px solid black; border-top: 2px solid black; border-bottom: 2px solid black'>
-                  <div class='img-box'>
-                    <img src= $imageSource alt='' style='width: 100px; height: 100px;  border-radius: 20px;'>
-                  </div>
-                  <div class='detail-box'>
-                    <div class='type'>
-                      <h4 style = 'padding-left: 10px'>
-                        $amount x $pName
-                      </h4>
-                    </div>
-                    <div class='price' style = 'padding-left: 25px; color: gray'>
-                      <h6>
-                        $pPrice$
-                      </h6>
-                    </div>
-                  </div>
-                </div>
-                <div class='price-container' style='display: flex; align-items: center; width: 30%; justify-content: flex-end; border-right: 2px solid black; border-top: 2px solid black; border-bottom: 2px solid black'>
-                  <div class='price'>
-                    <h6>
-                      $totPrice$
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              </a>
-              ";
-            }
-                
-            
-            // Close the div for the order
-            echo '</div> <br> <br>';
-          }
-          
-        
-        
-          
+        echo "<label class='address-box' style = 'padding-left: 10px;'>
+  <input type='radio' name='selected_address' value='$addressCounter'>
+  <div class='detail-box' style='padding-left: 10px; padding-right: 50px'>
+    <div class='heading_container'>
+      <h3 style='color: #3b4a6b; font-weight: 600;'>
+        Address $addressCounter
+      </h3>
+    </div>
+    <h4>
+      City: $city
+    </h4>
+    <h4>
+      Country: $country
+    </h4>
+    <h4>
+      Zip Code: $zipCode
+    </h4>
+    <h4>
+      Street: $street
+    </h4>
+  </div>
+</label>";
+        $addressCounter++;
+      }
+      echo "</div>";
         ?>
+
+        <button type='submit' onclick='myFunction()' >
+                    PLACE ORDER
+        </button>
+        
+
+
+
+
+
+        <br><br><br>
+
+
+
+
+
+
         
         
         </div>
@@ -330,10 +491,15 @@
                 width: 100%;
                 display: block;
               }
+
+              
             }
             </style>
             </head>
             <body>
+
+
+
 
 
 <h2 style="text-align:center; font-weight: bold; padding-top:20px; padding-bottom:4px">Our Team</h2>

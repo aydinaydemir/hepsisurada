@@ -238,7 +238,7 @@ THIS PART IS NOT WORKING YET
         }
         echo "<div class='total-amount-container'>
         <div class='total-amount'>Total Amount: $totalShoppingCart$</div>
-        <button class='checkout-button'>Checkout</button>
+        <a href='checkout.php'><button class='checkout-button'>Checkout</button></a>
         <br>
       </div>";
         

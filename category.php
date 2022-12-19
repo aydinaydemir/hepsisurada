@@ -103,7 +103,7 @@
 
   <!-- shop section -->
 
-  <section class="shop_section" style = "background-color: white;">>
+  <section class="shop_section" style = "background-color: white;">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>

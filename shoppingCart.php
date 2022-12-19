@@ -133,8 +133,8 @@
       <div class="">
         <?php
         include "config.php";
-        $userID = 2;   // Change the value of the userid in order to get that user profile
-        $sql_command = "SELECT p.pID, p.pName, p.pStock, p.pAvgRating, p.pPrice, p.pDescription, sc.amount FROM users u JOIN add_to_shoppingcart sc ON u.uid = sc.uid JOIN products p ON sc.pID = p.pID WHERE u.uid = 2";
+        $userID = 1;   // Change the value of the userid in order to get that user profile
+        $sql_command = "SELECT p.pID, p.pName, p.pStock, p.pAvgRating, p.pPrice, p.pDescription, sc.amount FROM users u JOIN add_to_shoppingcart sc ON u.uid = sc.uid JOIN products p ON sc.pID = p.pID WHERE u.uid = $userID";
         $myresult = mysqli_query($db, $sql_command);
 
         $totalShoppingCart = 0;
@@ -184,7 +184,7 @@
         }
         echo "<div class='total-amount-container'>
         <div class='total-amount'>Total Amount: $totalShoppingCart$</div>
-        <button class='checkout-button'>Checkout</button>
+        <a href='checkout.php'><button class='checkout-button'>Checkout</button></a>
         <br>
       </div>";
         
