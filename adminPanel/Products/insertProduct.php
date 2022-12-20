@@ -13,13 +13,14 @@ if (!empty($_POST['pName']) && !empty($_POST['pStock']) &&!empty($_POST['pAvgRat
     $pcid = $_POST['pcid']; 
 
 
-    $sql_statement = "INSERT INTO Products (pName, pStock , pAvgRating , pPrice , pDescription) VALUES ('$pName', '$pStock', '$pAvgRating','$pPrice','$pDescription')";
+    $sql_statement = "INSERT INTO Products (pName, pStock, pAvgRating, pPrice, pDescription) VALUES ('$pName', '$pStock', '$pAvgRating','$pPrice','$pDescription')";
     $result1 = mysqli_query($db, $sql_statement);
     $addedProductId= mysqli_insert_id($db);
-    $sql_statement2 = "INSERT INTO imported_from (pcid , pid) VALUES ('$pcid','$addedProductId')";
+    $sql_statement2 = "INSERT INTO imported_from ( pid , pcid) VALUES ('$addedProductId','$pcid')"; 
     $result2 = mysqli_query($db, $sql_statement2);
-    $sql_statement3 = "INSERT INTO belongs_to ( cid , pid) VALUES  ('$cid','$addedProductId')";
+    $sql_statement3 = "INSERT INTO belongs_to ( pid , cid) VALUES  ('$addedProductId','$cid')";
     $result3 = mysqli_query($db, $sql_statement3);
+
     if ($result1 && $result2 && $result3) {
         echo "All three queries were successful.";
     }

@@ -277,7 +277,7 @@ input[type="submit"]:hover {
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          Your Shopping Cart
+          Order Checkout
         </h2>
       </div>
       <div class="" style = " overflow: auto;">
@@ -401,9 +401,9 @@ input[type="submit"]:hover {
       echo "</div>";
         ?>
 
-        <button type='submit' onclick='myFunction()' >
-                    PLACE ORDER
-        </button>
+<div style="text-align: center;">
+  <button type='submit' onclick='myFunction()' style="background-color: #4CAF50; border: none; color: white; padding: 20px 40px; text-align: center; text-decoration: none; display: inline-block; font-size: 20px; margin: auto; width: 350px;" onmouseover="this.style.backgroundColor='#45a049'" onmouseout="this.style.backgroundColor='#4CAF50'">PLACE ORDER</button>
+</div>
         
 
 

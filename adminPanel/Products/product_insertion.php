@@ -56,4 +56,3 @@ include "config.php";
     <br>
     <input type="submit" value="Submit"> 
 </form> 
-
