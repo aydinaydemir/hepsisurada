@@ -22,14 +22,14 @@ if (empty($_POST['ageUpper'])){
 	$ageUpper = 200;
 }
 
-$sql_command = "SELECT * FROM users WHERE age < $ageUpper AND age > $ageLower";
+$sql_command = "SELECT * FROM Users WHERE uAge < $ageUpper AND uAge > $ageLower";
 
 if($radioValue == "MALE"){
-	$sql_command = "SELECT * FROM users WHERE age < $ageUpper AND age > $ageLower AND sex = \"male\"";
+	$sql_command = "SELECT * FROM Users WHERE uAge < $ageUpper AND uAge > $ageLower AND uSex = \"male\"";
 
 }
 if($radioValue == "FEMALE"){
-	$sql_command = "SELECT * FROM users WHERE age < $ageUpper AND age > $ageLower AND sex = \"female\"";
+	$sql_command = "SELECT * FROM Users WHERE uAge < $ageUpper AND uAge > $ageLower AND uSex = \"female\"";
 }
 
 $result = mysqli_query($db, $sql_command);
