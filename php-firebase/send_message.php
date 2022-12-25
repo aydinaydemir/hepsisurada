@@ -27,7 +27,7 @@ if(isset($_POST['message']) && isset($params['sender']))
     $postRef_result = $database->getReference($ref_table)->push($post_data);
 }
  
-header("Location: http://localhost/firebase/message.php");
+header("Location: http://localhost/hepsisurada/php-firebase/message.php");
 exit();
 
 ?>

@@ -15,7 +15,7 @@
     <?php 
       include "dbconfig.php";
 
-      $ref_table = "messages";
+      $ref_table = "Chats";
       $fetch_data = $database->getReference($ref_table)->getValue();
       if($fetch_data > 0)
       {
@@ -26,8 +26,8 @@
             <tr>
               
               <td><?=$index?></td>
-              <td><?=$row["sender"]?></td>
-              <td><?=$row["message"]?></td>
+              <td><?=$row["name"]?></td>
+              <td><?=$row["msg"]?></td>
               <td><?=$row["time"]?></td>
             </tr>
           <?php
