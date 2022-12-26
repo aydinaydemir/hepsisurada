@@ -77,6 +77,12 @@
                   <i class="nav-link" href="/hepsisurada/orders.php">My Orders</i>
                 </i>
               </a>
+              </a>
+              <a href="/hepsisurada/php-firebase/chats.php?userID=1">         <!-- 1 is the admin id CHANGE IT IF YOU WANT TO GO TO THE PAGE OF SPECIFIC USER-->
+                <i class="nav-item">
+                  <i class="nav-link" href="/hepsisurada/php-firebase/chats.php?userID=1">SUPPORT</i>  <!-- 1 is the admin id CHANGE IT IF YOU WANT TO GO TO THE PAGE OF SPECIFIC USER-->
+                </i>
+              </a>
               <a href="/hepsisurada/adminPanel/home.html">
                 <i class="nav-item">
                   <i class="nav-link" href="../home.html">Admin Panel</i>

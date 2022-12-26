@@ -1,33 +1,37 @@
 <?php
 include "dbconfig.php";
  
-// Initialize URL to the variable
-$url = $_SERVER['REQUEST_URI'];
-     
-// Use parse_url() function to parse the URL
-// and return an associative array which
-// contains its various components
-$url_components = parse_url($url);
- 
-// Use parse_str() function to parse the
-// string passed via URL
-parse_str($url_components['query'], $params);
+$URL = "https://hepsisuradacs306-default-rtdb.firebaseio.com/Messages.json?orderBy=%22userID%22&equalTo=$userID";
+$pureURL = "https://hepsisuradacs306-default-rtdb.firebaseio.com/Messages.json";
 
-if(isset($_POST['message']) && isset($params['sender']))
-{
-    $message = $_POST['message'];
-    $sender = $params['sender'];
+$userID = $_POST['uid'];
+$msg = $_POST['message'];
 
-    $post_data = [
-        'message'=> $message,
-        'sender' => $sender,
-        'time' => date('jS F Y h:i:s A'),
-    ];
-    $ref_table = "messages";
-    $postRef_result = $database->getReference($ref_table)->push($post_data);
+
+function send_msg($msg, $name, $userID) { 
+    global $pureURL;
+    $ch = curl_init();
+    $msg_json = new stdClass();
+    $msg_json->msg = $msg;
+    $msg_json->name = $name;
+    $msg_json->time = date('H:i');
+    $msg_json->userID = $userID;
+    $encoded_json_obj = json_encode($msg_json); 
+    curl_setopt_array($ch, array(CURLOPT_URL => $pureURL,
+                                CURLOPT_POST => TRUE,
+                                CURLOPT_RETURNTRANSFER => TRUE,
+                                CURLOPT_HTTPHEADER => array('Content-Type: application/json' ),
+                                CURLOPT_POSTFIELDS => $encoded_json_obj ));
+    $response = curl_exec($ch); 
+    header("Location: http://localhost/hepsisurada/php-firebase/message_client.php");
+    exit();
+    return $response;
 }
- 
-header("Location: http://localhost/hepsisurada/php-firebase/message.php");
-exit();
+
+if (!empty ($msg) && !empty($userID)){
+    $admin_msg = $msg;
+    send_msg($admin_msg, "admin", intval($userID));
+    echo $user_msg;
+}
 
 ?>

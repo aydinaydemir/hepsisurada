@@ -31,23 +31,17 @@
                                     CURLOPT_HTTPHEADER => array('Content-Type: application/json' ),
                                     CURLOPT_POSTFIELDS => $encoded_json_obj ));
         $response = curl_exec($ch); 
-        header("Location: http://localhost/hepsisurada/php-firebase/chats.php?userID=$userID");
+        header("Location: http://localhost/hepsisurada/php-firebase/chatAdminPage.php?userID=$userID");
         exit();
         return $response;
     }
 
-
-    include "../config.php";
-     $sql_command = "SELECT * FROM users WHERE uid = $_GET[userID]";
-     $result = mysqli_query($db, $sql_command);
-     $row = mysqli_fetch_array($result);
-     $userName = $row['uName'];
      $msg_res_json = get_messages();
      global $userID;
 
     if (isset($_POST['usermsg'])) {
         $user_msg = $_POST['usermsg'];
-        send_msg($user_msg, $userName, intval($userID));
+        send_msg($user_msg, "admin", intval($userID));
         echo $user_msg;
     }
 
@@ -98,7 +92,7 @@
     }
 ?>
 </ol>
-<form name="form" action = "chats.php?userID=<?php echo $userID ?>" method="POST">
+<form name="form" action = "chatAdminPage.php?userID=<?php echo $userID ?>" method="POST">
     <input name="usermsg" class="textarea" type="text" placeholder="Type here!"/>
     <input type="submit" style="display: none" />
 </form>
