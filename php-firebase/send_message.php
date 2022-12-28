@@ -14,7 +14,17 @@ function send_msg($msg, $name, $userID) {
     $msg_json = new stdClass();
     $msg_json->msg = $msg;
     $msg_json->name = $name;
-    $msg_json->time = date('H:i');
+    $time = date("d/m/Y H:i:s");
+        $day = (int) sprintf("%02d", substr($time, 0, 2));
+        $month = (int) sprintf("%02d", substr($time, 3, 2));
+        $year = (int) sprintf("%04d", substr($time, 6, 4));
+        $hour = (int) sprintf("%02d", substr($time, 11, 2));
+        $minute = (int) sprintf("%02d", substr($time, 14, 2));
+        $sec = (int) sprintf("%02d", substr($time, 17, 2));
+        // Combine the day, month, year, hour, and minute into a single integer value
+        $int_value = $year * 10000000000 + $month * 100000000 + $day * 1000000 + $hour * 10000 + 100* $minute + $sec;
+        $msg_json->time = $time;
+        $msg_json->int_value = $int_value;
     $msg_json->userID = $userID;
     $encoded_json_obj = json_encode($msg_json); 
     curl_setopt_array($ch, array(CURLOPT_URL => $pureURL,
@@ -23,7 +33,7 @@ function send_msg($msg, $name, $userID) {
                                 CURLOPT_HTTPHEADER => array('Content-Type: application/json' ),
                                 CURLOPT_POSTFIELDS => $encoded_json_obj ));
     $response = curl_exec($ch); 
-    header("Location: http://localhost/hepsisurada/php-firebase/message_client.php");
+    header("Location: http://localhost/hepsisurada/php-firebase/tickets.php");
     exit();
     return $response;
 }

@@ -1,5 +1,20 @@
 <?php
     $userID = $_GET['userID'];  // set a default value of 1 if no userID parameter is passed
+
+    if (empty($userID)){
+      include "../config.php";
+      $sql_commandx = "SELECT COUNT(*) FROM users WHERE uid < 0";
+      $result = mysqli_query($db, $sql_commandx);
+      $row = mysqli_fetch_array($result);
+      $guestCount = $row['COUNT(*)'];
+      $newUserID = 0 - ($guestCount + 1);
+
+      $sqlCOMMAND = "INSERT INTO users VALUES ($newUserID,'Guest-User','Guestoglu',0,'guest@sabanciuniv.edu','0','none')";
+      mysqli_query($db, $sqlCOMMAND);
+      header("Location: http://localhost/hepsisurada/php-firebase/chats.php?userID=$newUserID");
+      exit();
+    }
+
     $URL = "https://hepsisuradacs306-default-rtdb.firebaseio.com/Messages.json?orderBy=%22userID%22&equalTo=$userID";
     $pureURL = "https://hepsisuradacs306-default-rtdb.firebaseio.com/Messages.json";
 
