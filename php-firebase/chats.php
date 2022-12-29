@@ -1,5 +1,6 @@
 <?php
     $userID = $_GET['userID'];  // set a default value of 1 if no userID parameter is passed
+    $messageCount = 0;
 
     if (empty($userID)){
       include "../config.php";
@@ -38,6 +39,9 @@
         $messages = json_decode($response, true);
 
         usort($messages, 'compare_int_value');
+        global $messageCount;
+        $messageCount = count($messages);
+
         return $messages; 
     }
     
@@ -252,7 +256,7 @@ body {
 <section class="msger">
   <header class="msger-header">
     <div class="msger-header-title">
-      <i class="fas fa-comment-alt"></i> Hepsiburada Support  | Logged as: <?php echo $userName; ?>
+      <i class="fas fa-comment-alt"></i> Hepsisurada Support  | Logged as: <?php echo $userName; ?>
     </div>
     <div class="msger-header-options">
       <span><i class="fas fa-cog"></i></span>
@@ -261,7 +265,49 @@ body {
 
   <main class="msger-chat">
   <?php
-     
+      global $messageCount;
+
+
+
+
+
+      if ($messageCount == 0) {
+          $messagetoSend = "Hello, please select the reason you want to get support!
+          <br>
+          <form action = 'http://localhost/hepsisurada/php-firebase/chats.php?userID=$userID' method = 'POST'>
+          <select name = 'option' id = 'option'>
+          <option value = '1'>Defected product</option>
+          <option value = '2'>Product not delivered</option>
+          <option value = '3'>Suggestion</option>
+          <option value = '4'>Lost product</option>
+          </select>
+          <input type = 'submit' value = 'Send'>
+          </form>
+          
+          
+          ";
+          send_msg($messagetoSend,'admin',intval($userID));
+      }
+      if ($messageCount ==1 && !empty ($_POST['option'])){
+        global $userName;
+        $option = $_POST['option'];
+        if ($option == 1){
+          $messagetoSend = "I have a defective product, what should I do?";
+          send_msg($messagetoSend,$userName,intval($userID));
+        }
+        if ($option == 2){
+          $messagetoSend = "I have not received my product, what should I do?";
+          send_msg($messagetoSend,$userName,intval($userID));
+        }
+        if ($option == 3){
+          $messagetoSend = "I have a suggestion for you.";
+          send_msg($messagetoSend,$userName,intval($userID));
+        }
+        if ($option == 4){
+          $messagetoSend = "I lost my product, what should I do?";
+          send_msg($messagetoSend,$userName,intval($userID));
+        } 
+      }
 
 
 
@@ -298,4 +344,8 @@ body {
     <input name = "usermsg" type="text" class="msger-input" placeholder="Enter your message...">
     <button type="submit" class="msger-send-btn">Send</button>
   </form>
+
+
+
+
 </section>

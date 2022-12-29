@@ -6,7 +6,7 @@
     header("refresh: 15"); // Refresh the page every 15 seconds (for new messages)
 
 
-    
+
     function compare_int_value($a, $b) {
         if ($a['int_value'] == $b['int_value']) {
           return 0;
@@ -28,12 +28,6 @@
 
         usort($messages, 'compare_int_value');
         return $messages;
-
-
-
-
-
-
     }
     
     function send_msg($msg, $name, $userID) { 
@@ -247,7 +241,7 @@ body {
 <section class="msger">
   <header class="msger-header">
     <div class="msger-header-title">
-      <i class="fas fa-comment-alt"></i> Hepsiburada Support  | Logged as: ADMIN
+      <i class="fas fa-comment-alt"></i> Hepsisurada Support  | Logged as: ADMIN
     </div>
     <div class="msger-header-options">
       <span><i class="fas fa-cog"></i></span>
