@@ -2,7 +2,7 @@
 // Establish a database connection
 include "config.php";
 $userID = 1;
-$addressID = 106;
+$addressID = 7;
 // Start a MySQL transaction
 $beginTransaction = mysqli_query($db, "BEGIN");
 
